@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# this is the ".gitignore" file
+
+# ignore secret environment variable values in the ".env" file:
+.env
+
