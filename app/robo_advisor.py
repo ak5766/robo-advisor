@@ -144,7 +144,7 @@ if __name__ == "__main__":
             recommendation = "Buy!Buy!!Buy!!!"
             recommendation_reason = "The security price seems to be closer to 52-week low and is likely to be undervalued."
         elif (float(latest_price_usd) > benchmark):
-            recommendation = "Don't buy!!"
+            recommendation = "Don't buy!! It will underperform."
             recommendation_reason = "The security price seems to be closer to 52-week high and is likely to be overvalued."
 
         
