@@ -48,17 +48,17 @@ def transform_response(parsed_response):
 #adapted from https://github.com/prof-rossetti/robo-advisor-demo-2019/blob/master/app/robo_advisor.py
 def write_to_csv(rows, csv_filepath):
 
-    csv_headers = ["timestamp", "open", "high", "low", "close", "volume"]
+    csv_header = ["timestamp", "open", "high", "low", "close", "volume"]
 
     #adapted from https://realpython.com/python-csv/
     with open(csv_file_path, "w") as csv_file:
-        writer = csv.DictWriter(csv_file, fieldnames=csv_headers)
+        writer = csv.DictWriter(csv_file, fieldnames=csv_header)
+    
 
         writer.writeheader()
 
         for r in rows:
             writer.writerow(r)
-
 
 
 load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
@@ -133,6 +133,20 @@ if __name__ == "__main__":
         csv_file_path = os.path.join(os.path.dirname(__file__), "..", "data", str(query) + " prices.csv")
 
         write_to_csv(transformed_response, csv_file_path)
+
+    
+    # some simple investing benchmark
+        benchmark_factor = 1.05
+        benchmark = recent_low * benchmark_factor
+        recommendation = ""
+        justification = ""
+
+        if (float(latest_price_usd) < benchmark):
+            recommendation = "Buy!Buy!!Buy!!!"
+            justification = "The security price seems to be closer to 52-week low and is likely to be undervalued."
+        elif (float(latest_price_usd) > benchmark):
+            recommendation = "Don't buy!!"
+            justification = "The security price seems to be closer to 52-week high and is likely to be overvalued."
 
         
 
