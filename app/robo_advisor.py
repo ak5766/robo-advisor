@@ -138,14 +138,14 @@ if __name__ == "__main__":
         benchmark_factor = 1.05
         benchmark = recent_low * benchmark_factor
         recommendation = ""
-        justification = ""
+        recommendation_reason = ""
 
         if (float(latest_price_usd) < benchmark):
             recommendation = "Buy!Buy!!Buy!!!"
-            justification = "The security price seems to be closer to 52-week low and is likely to be undervalued."
+            recommendation_reason = "The security price seems to be closer to 52-week low and is likely to be undervalued."
         elif (float(latest_price_usd) > benchmark):
             recommendation = "Don't buy!!"
-            justification = "The security price seems to be closer to 52-week high and is likely to be overvalued."
+            recommendation_reason = "The security price seems to be closer to 52-week high and is likely to be overvalued."
 
         
         #most of this is adapted from the screencast
@@ -164,7 +164,7 @@ if __name__ == "__main__":
         print("-----------------")
         #I did this part on my own
         print(f"RECOMMENDATION: {recommendation}")
-        print(f"RECOMMENDATION REASON: {justification}")
+        print(f"RECOMMENDATION REASON: {recommendation_reason}")
         print("-----------------")
         print("Writing data to CSV")
         print("-----------------\n")
