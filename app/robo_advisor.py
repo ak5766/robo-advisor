@@ -5,10 +5,6 @@ import os
 import requests
 import datetime
 
-#adapted from Crunch the data exercise
-def to_usd(price):
-    return "${0:,.2f}".format(price)
-
 
 #adapted from "https://github.com/ryanbeaudet/robo-advisor-project/blob/master/app/robo_advisor.py"
 def compile_url(ticker):
@@ -18,13 +14,16 @@ def compile_url(ticker):
 
 #adapted from https://github.com/prof-rossetti/robo-advisor-demo-2019/blob/master/app/robo_advisor.py
 def get_response(request_url):
-    #adapted from the screencast
+
     response = requests.get(request_url)
     print(response)
     parsed_response = json.loads(response.text)
 
     return parsed_response
 
+#adapted from Crunch the data exercise
+def to_usd(my_price):
+    return "${0:,.2f}".format(my_price)
 
 #adapted from https://github.com/prof-rossetti/robo-advisor-demo-2019/blob/master/app/robo_advisor.py
 def transform_response(parsed_response):
@@ -61,7 +60,7 @@ def write_to_csv(rows, csv_filepath):
             writer.writerow(r)
 
 
-load_dotenv() # loads environment variables set in a ".env" file, including the value of the ALPHAVANTAGE_API_KEY variable
+load_dotenv() # loads environment variables set in a ".env" file
 
 #adapted from screencast
 api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
@@ -70,13 +69,13 @@ api_key = os.environ.get("ALPHAVANTAGE_API_KEY")
 if __name__ == "__main__":
     query = input("What is the ticker symbol of the security you would like information about? (Enter 'done' if you're finished querying): ")
 
- #adapted logic from https://opentechschool.github.io/python-beginners/en/logical_operators.html
+ #adapted logic from https://github.com/ryanbeaudet/robo-advisor-project/blob/master/app/robo_advisor.py
     while (query != 'done'):
         
         if not (0 < len(query) < 5):
             print("Sorry! That ticker is invalid. Please try again!")
             exit()
-        #adapted from https://stackoverflow.com/questions/19859282/check-if-a-string-contains-a-number
+        #adapted from https://github.com/ryanbeaudet/robo-advisor-project/blob/master/app/robo_advisor.py
         elif any(q.isdigit() for q in query):
             print("Sorry! Tickers do not contains digits. Please try again!")
             exit()
@@ -147,6 +146,31 @@ if __name__ == "__main__":
         elif (float(latest_price_usd) > benchmark):
             recommendation = "Don't buy!!"
             justification = "The security price seems to be closer to 52-week high and is likely to be overvalued."
+
+        
+        #most of this is adapted from the screencast
+        print("")
+        print("-----------------")
+        print(f"STOCK SYMBOL: {query}")
+    
+        d = datetime.datetime.now()
+        #adapted from https://www.guru99.com/date-time-and-datetime-classes-in-python.html#3
+        print("RUN AT: " + str(d.strftime('%I:%M%p %B %d, %Y')))
+        print("-----------------")
+        print(f"LATEST DAY OF AVAILABLE DATA: {last_refreshed_new}")
+        print(f"LATEST DAILY CLOSING PRICE: {to_usd(float(latest_price_usd))}")
+        print(f"RECENT HIGH: {to_usd(recent_high)}")
+        print(f"RECENT LOW: {to_usd(recent_low)}")
+        print("-----------------")
+        #I did this part on my own
+        print(f"RECOMMENDATION: {recommendation}")
+        print(f"RECOMMENDATION REASON: {justification}")
+        print("-----------------")
+        print("Writing data to CSV")
+        print("-----------------\n")
+
+        query = input("What is the ticker of the next security you would like information about? (Enter 'done' if you're finished querying): ")
+        
 
         
 
